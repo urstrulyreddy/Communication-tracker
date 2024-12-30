@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+/* FullCalendar customization */
+.fc-theme-standard td, .fc-theme-standard th {
+  @apply border-gray-200;
+}
+
+.fc .fc-button-primary {
+  @apply bg-indigo-600 border-indigo-600 shadow-sm hover:bg-indigo-700 focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
+}
+
+.fc .fc-button-primary:disabled {
+  @apply bg-indigo-400 border-indigo-400;
+}
+
+.fc .fc-daygrid-day.fc-day-today {
+  @apply bg-indigo-50;
+}
+
+.fc .fc-highlight {
+  @apply bg-indigo-100;
+}
