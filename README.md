@@ -167,4 +167,25 @@ The application includes two user roles with demo credentials:
 
 ## Deployment
 
-1. Build the application:
+1. Build the application: npm run build
+
+
+2. The build output will be in the `dist` directory
+
+3. Deploy using any static hosting service (Vercel, Netlify, etc.)
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Support
+
+For support, please create an issue in the repository or contact the development team.
