@@ -1,3 +1,11 @@
+export enum CommunicationType {
+  LinkedIn = 'LinkedIn',
+  Email = 'Email',
+  Phone = 'Phone',
+  VideoCall = 'Video Call',
+  InPerson = 'In-Person'
+}
+
 export interface Company {
   id: string;
   name: string;
@@ -5,18 +13,8 @@ export interface Company {
   linkedinProfile: string;
   emails: string[];
   phoneNumbers: string[];
-  comments: string;
-  communicationPeriodicity: number; // in days
-  preferredMethods?: string[];
-  mandatoryMethods?: string[];
-}
-
-export enum CommunicationType {
-  LINKEDIN_POST = 'LinkedIn Post',
-  LINKEDIN_MESSAGE = 'LinkedIn Message',
-  EMAIL = 'Email',
-  PHONE_CALL = 'Phone Call',
-  OTHER = 'Other'
+  communicationPeriodicity: number;
+  comments?: string;
 }
 
 export interface Communication {
@@ -24,7 +22,12 @@ export interface Communication {
   companyId: string;
   type: CommunicationType;
   date: string;
-  notes: string;
+  notes?: string;
+  contactDetails?: {
+    email?: string;
+    phone?: string;
+    linkedinProfile?: string;
+  };
 }
 
 export interface CommunicationMethod {

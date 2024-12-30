@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Company, Communication } from '../types';
+import { sampleCompanies, sampleCommunications } from '../mocks/sampleData';
 
 interface State {
   companies: Company[];
@@ -14,8 +15,8 @@ interface State {
 export const useStore = create<State>()(
   persist(
     (set) => ({
-      companies: [],
-      communications: [],
+      companies: sampleCompanies,
+      communications: sampleCommunications,
       
       addCompany: (company) =>
         set((state) => ({

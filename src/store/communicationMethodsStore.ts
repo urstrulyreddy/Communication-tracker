@@ -1,64 +1,34 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { CommunicationMethod, CommunicationType } from '../types';
+import { sampleCommunicationMethods } from '../mocks/sampleData';
 
-interface CommunicationMethodsState {
+interface CommunicationMethod {
+  id: string;
+  name: string;
+  isActive: boolean;
+}
+
+interface State {
   methods: CommunicationMethod[];
   addMethod: (method: CommunicationMethod) => void;
-  updateMethod: (method: CommunicationMethod) => void;
+  toggleMethod: (id: string) => void;
   deleteMethod: (id: string) => void;
 }
 
-export const useCommunicationMethodsStore = create<CommunicationMethodsState>()(
+export const useCommunicationMethodsStore = create<State>()(
   persist(
     (set) => ({
-      methods: [
-        {
-          id: '1',
-          name: CommunicationType.LINKEDIN_POST,
-          description: 'Post on company LinkedIn page',
-          sequence: 1,
-          isMandatory: true
-        },
-        {
-          id: '2',
-          name: CommunicationType.LINKEDIN_MESSAGE,
-          description: 'Direct message on LinkedIn',
-          sequence: 2,
-          isMandatory: true
-        },
-        {
-          id: '3',
-          name: CommunicationType.EMAIL,
-          description: 'Email communication',
-          sequence: 3,
-          isMandatory: true
-        },
-        {
-          id: '4',
-          name: CommunicationType.PHONE_CALL,
-          description: 'Phone call communication',
-          sequence: 4,
-          isMandatory: true
-        },
-        {
-          id: '5',
-          name: CommunicationType.OTHER,
-          description: 'Other forms of communication',
-          sequence: 5,
-          isMandatory: false
-        }
-      ],
+      methods: sampleCommunicationMethods,
       
       addMethod: (method) =>
         set((state) => ({
           methods: [...state.methods, method],
         })),
         
-      updateMethod: (method) =>
+      toggleMethod: (id) =>
         set((state) => ({
           methods: state.methods.map((m) =>
-            m.id === method.id ? method : m
+            m.id === id ? { ...m, isActive: !m.isActive } : m
           ),
         })),
         

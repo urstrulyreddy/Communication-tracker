@@ -1,40 +1,41 @@
+import { useState } from 'react';
 import { Dialog } from '@headlessui/react';
-import { useForm } from 'react-hook-form';
+import { X } from 'lucide-react';
 import { useStore } from '../store/useStore';
 import { CommunicationType } from '../types';
-import { X } from 'lucide-react';
+import { Button } from './ui/Button';
+import { Input } from './ui/Input';
+import { format } from 'date-fns';
 
 interface CommunicationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  companyId: string | null;
+  selectedCompanyIds: string[];
 }
 
-interface FormData {
-  type: CommunicationType;
-  date: string;
-  notes: string;
-}
-
-export function CommunicationModal({ isOpen, onClose, companyId }: CommunicationModalProps) {
+export function CommunicationModal({ isOpen, onClose, selectedCompanyIds }: CommunicationModalProps) {
   const { companies, addCommunication } = useStore();
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const [type, setType] = useState<CommunicationType>(CommunicationType.LinkedIn);
+  const [date, setDate] = useState(format(new Date(), 'yyyy-MM-dd'));
+  const [notes, setNotes] = useState('');
 
-  const onSubmit = (data: FormData) => {
-    if (!companyId) return;
-    
-    addCommunication({
-      id: crypto.randomUUID(),
-      companyId,
-      type: data.type,
-      date: new Date(data.date).toISOString(),
-      notes: data.notes
+  const selectedCompanies = companies.filter(c => selectedCompanyIds.includes(c.id));
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    selectedCompanyIds.forEach(companyId => {
+      addCommunication({
+        id: crypto.randomUUID(),
+        companyId,
+        type,
+        date: new Date(date).toISOString(),
+        notes,
+      });
     });
-    
+
     onClose();
   };
-
-  const company = companies.find(c => c.id === companyId);
 
   return (
     <Dialog open={isOpen} onClose={onClose} className="relative z-50">
@@ -45,24 +46,40 @@ export function CommunicationModal({ isOpen, onClose, companyId }: Communication
           <div className="flex justify-between items-center mb-6">
             <Dialog.Title className="text-lg font-medium">
               Log Communication
-              {company && <span className="text-gray-500 ml-2">with {company.name}</span>}
+              <span className="text-sm font-normal text-gray-500 block mt-1">
+                {selectedCompanies.length} {selectedCompanies.length === 1 ? 'company' : 'companies'} selected
+              </span>
             </Dialog.Title>
-            <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-gray-500"
-            >
+            <button onClick={onClose} className="text-gray-400 hover:text-gray-500">
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Selected Companies
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {selectedCompanies.map(company => (
+                  <span
+                    key={company.id}
+                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-indigo-100 text-indigo-800"
+                  >
+                    {company.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Communication Type
               </label>
               <select
-                {...register('type', { required: true })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                value={type}
+                onChange={(e) => setType(e.target.value as CommunicationType)}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
               >
                 {Object.values(CommunicationType).map((type) => (
                   <option key={type} value={type}>
@@ -70,50 +87,40 @@ export function CommunicationModal({ isOpen, onClose, companyId }: Communication
                   </option>
                 ))}
               </select>
-              {errors.type && (
-                <p className="mt-1 text-sm text-red-600">Type is required</p>
-              )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Date
               </label>
-              <input
+              <Input
                 type="date"
-                {...register('date', { required: true })}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                value={date}
+                onChange={(e) => setDate(e.target.value)}
+                max={format(new Date(), 'yyyy-MM-dd')}
               />
-              {errors.date && (
-                <p className="mt-1 text-sm text-red-600">Date is required</p>
-              )}
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
                 Notes
               </label>
               <textarea
-                {...register('notes')}
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
                 rows={3}
-                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                placeholder="Add any additional comments..."
               />
             </div>
 
-            <div className="flex justify-end gap-3">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50"
-              >
+            <div className="flex justify-end gap-3 mt-6">
+              <Button type="button" variant="outline" onClick={onClose}>
                 Cancel
-              </button>
-              <button
-                type="submit"
-                className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md shadow-sm hover:bg-indigo-700"
-              >
-                Save
-              </button>
+              </Button>
+              <Button type="submit" disabled={selectedCompanyIds.length === 0}>
+                Log Communication
+              </Button>
             </div>
           </form>
         </Dialog.Panel>

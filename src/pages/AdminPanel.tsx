@@ -43,14 +43,18 @@ export function AdminPanel() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Companies Section */}
-      <div className="bg-white rounded-lg shadow">
+    <div className="space-y-6 p-6 bg-white/50 backdrop-blur-sm rounded-lg">
+      <div className="bg-gradient-to-br from-white to-indigo-50 rounded-lg shadow-lg">
         <div className="p-6">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-medium">Companies</h3>
+            <h3 className="text-lg font-medium bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600">
+              Companies
+            </h3>
             {!isAdding && (
-              <Button onClick={() => setIsAdding(true)}>
+              <Button 
+                onClick={() => setIsAdding(true)}
+                className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white"
+              >
                 <Plus className="w-4 h-4 mr-2" />
                 Add Company
               </Button>
@@ -96,12 +100,11 @@ export function AdminPanel() {
         </div>
       </div>
 
-      {/* Communication Methods Section */}
       {selectedCompany && (
-        <div className="bg-white rounded-lg shadow">
+        <div className="bg-gradient-to-br from-white to-purple-50 rounded-lg shadow-lg">
           <div className="p-6">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-medium">
+              <h3 className="text-lg font-medium bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">
                 Communication Methods for {selectedCompany.name}
               </h3>
             </div>

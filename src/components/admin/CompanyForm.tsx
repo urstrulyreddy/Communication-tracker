@@ -3,12 +3,25 @@ import { Company } from '../../types';
 import { Button } from '../ui/Button';
 import { Plus, Trash } from 'lucide-react';
 import { useCommunicationMethodsStore } from '../../store/communicationMethodsStore';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
 
 interface CompanyFormProps {
   initialData?: Company;
   onSubmit: (data: Company) => void;
   onCancel: () => void;
 }
+
+const companySchema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  location: z.string().min(2, 'Location is required'),
+  linkedinProfile: z.string().url('Must be a valid URL'),
+  emails: z.array(z.string().email('Must be valid email')),
+  phoneNumbers: z.array(z.string().regex(/^\+?[\d\s-]{10,}$/, 'Invalid phone number')),
+  communicationPeriodicity: z.number().min(1, 'Must be at least 1 day'),
+  preferredMethods: z.array(z.string()),
+  mandatoryMethods: z.array(z.string())
+});
 
 export function CompanyForm({ initialData, onSubmit, onCancel }: CompanyFormProps) {
   const { register, control, handleSubmit, formState: { errors } } = useForm<Company>({
