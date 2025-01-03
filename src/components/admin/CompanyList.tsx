@@ -3,7 +3,7 @@ import { Table } from '../ui/Table';
 import { Button } from '../ui/Button';
 import { Pencil, Trash2 } from 'lucide-react';
 import { useStore } from '../../store/useStore';
-import { isAfter, isSameDay, parseISO } from 'date-fns';
+import { isAfter, isSameDay} from 'date-fns';
 import { Tooltip } from '../ui/Tooltip';
 
 interface CompanyListProps {

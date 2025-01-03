@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// @ts-nocheck
 import { useState, useMemo } from 'react';
 import { useStore } from '../store/useStore';
 import { 

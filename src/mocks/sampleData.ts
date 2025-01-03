@@ -1,5 +1,5 @@
 import { Company, Communication, CommunicationType } from '../types';
-import { subDays, addDays } from 'date-fns';
+import { subDays, } from 'date-fns';
 
 export const sampleCompanies: Company[] = [
   {
@@ -11,6 +11,8 @@ export const sampleCompanies: Company[] = [
     phoneNumbers: ['+1-555-0123'],
     communicationPeriodicity: 7,
     comments: 'Key enterprise client',
+    preferredMethods: ['LinkedIn', 'Email'],
+    mandatoryMethods: ['Email']
   },
   {
     id: '2',
@@ -21,6 +23,8 @@ export const sampleCompanies: Company[] = [
     phoneNumbers: ['+1-555-0124'],
     communicationPeriodicity: 14,
     comments: 'Interested in new products',
+    preferredMethods: ['LinkedIn', 'Email'],
+    mandatoryMethods: ['Email']
   },
   {
     id: '3',
@@ -31,6 +35,8 @@ export const sampleCompanies: Company[] = [
     phoneNumbers: ['+1-555-0125'],
     communicationPeriodicity: 30,
     comments: 'Potential partnership opportunity',
+    preferredMethods: ['LinkedIn', 'Email'],
+    mandatoryMethods: ['Email']
   },
   {
     id: '4',
@@ -41,6 +47,8 @@ export const sampleCompanies: Company[] = [
     phoneNumbers: ['+1-555-0126'],
     communicationPeriodicity: 7,
     comments: 'Regular follow-up required',
+    preferredMethods: ['LinkedIn', 'Email'],
+    mandatoryMethods: ['Email']
   },
   {
     id: '5',
@@ -51,6 +59,8 @@ export const sampleCompanies: Company[] = [
     phoneNumbers: ['+1-555-0127'],
     communicationPeriodicity: 14,
     comments: 'New client onboarding',
+    preferredMethods: ['LinkedIn', 'Email'],
+    mandatoryMethods: ['Email']
   },
 ];
 

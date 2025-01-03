@@ -1,4 +1,4 @@
-import { Company, Communication, CommunicationType } from '../types';
+import { Company, Communication} from '../types';
 
 /**
  * Main application state interface
