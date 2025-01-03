@@ -1,17 +1,11 @@
-type ClassValue = string | number | boolean | undefined | null;
-type ClassArray = ClassValue[];
-type ClassObject = { [key: string]: any };
-type ClassInput = ClassValue | ClassArray | ClassObject;
-
-export function cn(...inputs: ClassInput[]): string {
+export function cn(...inputs: (string | undefined | null | { [key: string]: boolean })[]): string {
   return inputs
     .filter(Boolean)
     .map((input) => {
       if (typeof input === 'string') return input;
-      if (Array.isArray(input)) return input.filter(Boolean).join(' ');
-      if (typeof input === 'object') {
+      if (typeof input === 'object' && input !== null) {
         return Object.entries(input)
-          .filter(([, value]) => Boolean(value))
+          .filter(([_, value]) => Boolean(value))
           .map(([key]) => key)
           .join(' ');
       }

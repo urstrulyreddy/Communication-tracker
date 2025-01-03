@@ -70,7 +70,7 @@ export function Reports() {
   }
 
   // Export Data
-  const exportData = async (format: 'csv' | 'pdf') => {
+  const exportData = async (exportFormat: 'csv' | 'pdf') => {
     const data = filteredCommunications.map(comm => ({
       date: format(parseISO(comm.date), 'yyyy-MM-dd'),
       company: companies.find(c => c.id === comm.companyId)?.name,
@@ -78,11 +78,10 @@ export function Reports() {
       notes: comm.notes
     }));
 
-    if (format === 'csv') {
+    if (exportFormat === 'csv') {
       const csv = convertToCSV(data);
       downloadFile(csv, 'communications.csv', 'text/csv');
     } else {
-      // Implement PDF export using a library like jsPDF
       console.log('PDF export to be implemented');
     }
   };

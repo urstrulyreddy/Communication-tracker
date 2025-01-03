@@ -23,9 +23,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         </label>
         {multiline ? (
           <textarea
-            {...props}
             className={inputClasses}
             rows={rows}
+            {...(props as React.TextareaHTMLAttributes<HTMLTextAreaElement>)}
           />
         ) : (
           <input

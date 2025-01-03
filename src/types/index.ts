@@ -15,7 +15,8 @@ export interface Company {
   phoneNumbers: string[];
   comments: string;
   communicationPeriodicity: number;
-  preferredMethods?: string[];
+  preferredMethods: string[];
+  mandatoryMethods: string[];
 }
 
 export interface Communication {
@@ -37,4 +38,5 @@ export interface CommunicationMethod {
   description: string;
   sequence: number;
   isMandatory: boolean;
+  isActive: boolean;
 }

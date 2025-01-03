@@ -4,7 +4,6 @@ import {
   flexRender,
   ColumnDef,
   Row,
-  Cell
 } from '@tanstack/react-table';
 
 interface TableProps<T extends object> {

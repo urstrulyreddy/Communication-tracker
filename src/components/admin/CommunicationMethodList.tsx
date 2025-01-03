@@ -1,15 +1,16 @@
 import { useState } from 'react';
-import { CommunicationMethod } from '../../types';
+import { Company, CommunicationMethod } from '../../types';
 import { Badge } from '../ui/Badge';
 import { Button } from '../ui/Button';
-import { Plus, Pencil, Trash2, GripVertical } from 'lucide-react';
+import { Plus,  GripVertical } from 'lucide-react';
 import { CommunicationMethodForm } from './CommunicationMethodForm';
 import { useCommunicationMethodsStore } from '../../store/communicationMethodsStore';
 import { useStore } from '../../store/useStore';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 interface CommunicationMethodListProps {
-  companyId: string;
+  companyId: string,
+  company: Company;
 }
 
 export function CommunicationMethodList({ companyId }: CommunicationMethodListProps) {
@@ -22,11 +23,12 @@ export function CommunicationMethodList({ companyId }: CommunicationMethodListPr
   const companyMethods = company?.preferredMethods || [];
 
   const handleSubmit = (data: CommunicationMethod) => {
+    const methodWithActive = { ...data, isActive: true };
     if (editingMethod) {
-      updateMethod(data);
+      updateMethod(methodWithActive);
       setEditingMethod(null);
     } else {
-      addMethod(data);
+      addMethod(methodWithActive);
     }
     setIsAdding(false);
   };
@@ -49,7 +51,7 @@ export function CommunicationMethodList({ companyId }: CommunicationMethodListPr
     
     const mandatoryMethods = company.mandatoryMethods || [];
     const newMandatoryMethods = mandatoryMethods.includes(methodName)
-      ? mandatoryMethods.filter(m => m !== methodName)
+      ? mandatoryMethods.filter((m: string) => m !== methodName)
       : [...mandatoryMethods, methodName];
       
     updateCompany({
@@ -58,19 +60,7 @@ export function CommunicationMethodList({ companyId }: CommunicationMethodListPr
     });
   };
 
-  const getDefaultMethods = () => {
-    return methods.sort((a, b) => a.sequence - b.sequence);
-  };
 
-  const initializeCompanyMethods = () => {
-    if (!company?.preferredMethods || company.preferredMethods.length === 0) {
-      const defaultSequence = getDefaultMethods().map(m => m.name);
-      updateCompany({
-        ...company!,
-        preferredMethods: defaultSequence
-      });
-    }
-  };
 
   return (
     <div className="space-y-4">
@@ -78,7 +68,7 @@ export function CommunicationMethodList({ companyId }: CommunicationMethodListPr
         <Droppable droppableId="methods">
           {(provided) => (
             <div {...provided.droppableProps} ref={provided.innerRef}>
-              {companyMethods.map((methodName, index) => {
+              {companyMethods.map((methodName: string, index: number) => {
                 const method = methods.find(m => m.name === methodName);
                 if (!method) return null;
 

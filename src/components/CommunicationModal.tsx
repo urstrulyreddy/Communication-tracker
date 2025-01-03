@@ -94,6 +94,7 @@ export function CommunicationModal({ isOpen, onClose, selectedCompanyIds }: Comm
                 Date
               </label>
               <Input
+                label="Date"
                 type="date"
                 value={date}
                 onChange={(e) => setDate(e.target.value)}

@@ -1,4 +1,4 @@
-import { format, isAfter, isBefore, isSameDay, parseISO } from 'date-fns';
+import { format, isBefore, isSameDay, parseISO } from 'date-fns';
 
 /**
  * Date format options

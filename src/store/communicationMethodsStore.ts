@@ -1,16 +1,18 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { sampleCommunicationMethods } from '../mocks/sampleData';
+
 
 interface CommunicationMethod {
   id: string;
   name: string;
+  description: string;
   isActive: boolean;
 }
 
 interface State {
   methods: CommunicationMethod[];
   addMethod: (method: CommunicationMethod) => void;
+  updateMethod: (method: CommunicationMethod) => void;
   toggleMethod: (id: string) => void;
   deleteMethod: (id: string) => void;
 }
@@ -18,11 +20,16 @@ interface State {
 export const useCommunicationMethodsStore = create<State>()(
   persist(
     (set) => ({
-      methods: sampleCommunicationMethods,
+      methods: [],
       
       addMethod: (method) =>
         set((state) => ({
-          methods: [...state.methods, method],
+          methods: [...state.methods, { ...method, isActive: true }],
+        })),
+        
+      updateMethod: (method) =>
+        set((state) => ({
+          methods: state.methods.map(m => m.id === method.id ? method : m),
         })),
         
       toggleMethod: (id) =>

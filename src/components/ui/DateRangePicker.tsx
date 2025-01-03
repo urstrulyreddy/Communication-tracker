@@ -1,4 +1,4 @@
-import { useState } from 'react';
+
 import { Calendar } from 'lucide-react';
 import { format } from 'date-fns';
 import { Button } from './Button';
@@ -17,13 +17,13 @@ export function DateRangePicker({ value, onChange }: DateRangePickerProps) {
         selectsRange={true}
         startDate={value[0]}
         endDate={value[1]}
-        onChange={(dates: [Date, Date]) => {
+        onChange={(dates: [Date | null, Date | null]) => {
           if (dates[0] && dates[1]) {
-            onChange(dates);
+            onChange([dates[0], dates[1]]);
           }
         }}
         customInput={
-          <Button variant="outline" className="w-auto">
+          <Button variant="secondary" className="w-auto">
             <Calendar className="w-4 h-4 mr-2" />
             {format(value[0], 'MMM d, yyyy')} - {format(value[1], 'MMM d, yyyy')}
           </Button>

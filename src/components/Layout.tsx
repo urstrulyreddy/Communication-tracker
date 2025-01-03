@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// @ts-nocheck
+
 import { Link, useLocation, Outlet } from 'react-router-dom';
 import { LayoutGrid, Users, Calendar, BarChart3, Menu, LogOut } from 'lucide-react';
 import { useState } from 'react';

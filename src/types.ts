@@ -15,6 +15,8 @@ export interface Company {
   phoneNumbers: string[];
   communicationPeriodicity: number;
   comments?: string;
+  preferredMethods: string[];
+  mandatoryMethods: string[];
 }
 
 export interface Communication {
